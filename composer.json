@@ -1,0 +1,19 @@
+{
+    "name": "ruoge3s/fly-core",
+    "description": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ruoge3s",
+            "email": "ruoge3s@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.1",
+        "ext-json": ">=1.2.1"
+    },
+    "autoload":{
+        "files": ["src/functions.php"]
+    }
+}
