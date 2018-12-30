@@ -2,6 +2,7 @@
 
 namespace core;
 
+use core\interfaces\Init;
 use Swoole\Http\Request;
 
 class Http extends Handler implements Init
