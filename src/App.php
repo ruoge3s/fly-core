@@ -2,8 +2,15 @@
 
 namespace core;
 
+use core\traits\AttributeLoader;
+
+/**
+ * Class App
+ * @package core
+ */
 abstract class App
 {
+    use AttributeLoader;
     /**
      * 获取处理器的家目录(控制器和command)
      * @return string
@@ -23,26 +30,17 @@ abstract class App
         App::configure($this, $config);
     }
 
+    /**
+     * 把一个键值对数据配置给一个类的属性
+     * @param $object
+     * @param array $data
+     */
     public static function configure($object, array $data)
     {
         foreach ($data as $k => $v) {
             $object->$k = $v;
         }
     }
-
-    public function load(array $attributes = [])
-    {
-        $properties = $this->publicProperties();
-        foreach ($attributes as $attribute => $value) {
-            if (isset($properties[$attribute])) {
-                $this->$attribute = $value;
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
 
     /**
      * 解析注释
