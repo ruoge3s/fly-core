@@ -14,7 +14,8 @@
         "ext-swoole": ">=4.0"
     },
     "require-dev": {
-        "eaglewu/swoole-ide-helper": "dev-master"
+        "eaglewu/swoole-ide-helper": "dev-master",
+        "phpunit/phpunit": "^7"
     },
     "autoload":{
         "psr-4":{
