@@ -4,5 +4,7 @@
 
 ## 启动测试
 ```bash
-./vendor/bin/phpunit --bootstrap vendor/autoload.php tests
+php phpunit
 ```
+
+> [phpunit中文文档](https://phpunit.readthedocs.io/zh_CN/latest/installation.html)
