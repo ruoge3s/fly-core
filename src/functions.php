@@ -31,3 +31,27 @@ if (!function_exists('namespace2dir')) {
         return str_replace('\\', '/', $dir);
     }
 }
+
+if (!function_exists('hump2dash')) {
+    /**
+     * @param string $string
+     * @return string
+     */
+    function hump2dash(string $string) : string {
+        return trim(preg_replace_callback('/[A-Z]/', function ($item) {
+            return '-' . strtolower($item[0]);
+        }, $string), '-');
+    }
+}
+
+if (!function_exists('dash2hump')) {
+    /**
+     * @param string $string
+     * @return string
+     */
+    function dash2hump(string $string) : string {
+        return preg_replace_callback('/-([a-z])/', function ($item) {
+            return strtoupper($item[1]);
+        }, $string);
+    }
+}

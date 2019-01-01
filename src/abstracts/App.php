@@ -22,6 +22,12 @@ abstract class App
 
     abstract public static function getNamespace();
 
+    /**
+     * 获取子类独有的方法
+     * @return array
+     */
+    abstract protected function getChildUniqueMethod() : array ;
+
     public function __construct(array $config = [])
     {
         App::configure($this, $config);
@@ -107,14 +113,9 @@ abstract class App
      */
     public function publicMethods()
     {
-        $staticClassMethods =  array_diff(
-            get_class_methods(static::class),
-            get_class_methods(static::restrain())
-        );
-
+        $uniqueMethods = $this->getChildUniqueMethod();
         $publicMethods = [];
-
-        foreach ($staticClassMethods as $method) {
+        foreach ($uniqueMethods as $method) {
             $comment =  $this->publicMethodComment($method);
             $comment !== null && $publicMethods[$method] = $comment;
         }

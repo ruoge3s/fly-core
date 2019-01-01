@@ -17,6 +17,14 @@ class Controller extends App
         return self::$commandNamespace;
     }
 
+    protected function getChildUniqueMethod(): array
+    {
+        return array_diff(
+            get_class_methods(static::class),
+            get_class_methods(self::class)
+        );
+    }
+
     public function execute($m)
     {
         if (method_exists($this, $m)) {

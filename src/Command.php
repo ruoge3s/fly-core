@@ -13,9 +13,17 @@ class Command extends App
 {
     protected static $commandNamespace = 'app\command';
 
-    public static function getNamespace()
+    public static function getNamespace() : string
     {
         return self::$commandNamespace;
+    }
+
+    protected function getChildUniqueMethod() : array
+    {
+        return array_diff(
+            get_class_methods(static::class),
+            get_class_methods(self::class)
+        );
     }
 
     /**
