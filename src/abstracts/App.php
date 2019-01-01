@@ -85,7 +85,7 @@ abstract class App
                     try {
                         $r = new \ReflectionClass($className);
                         if ($r->getParentClass() and $r->getParentClass()->name == $restrain) {
-                            $apps[$className] = $this->parseComment($r->getDocComment());
+                            $handlers[$className] = $this->parseComment($r->getDocComment());
                         } else {
                             echo sprintf("Class $className need to extend from %s\n", $restrain);
                             exit();
