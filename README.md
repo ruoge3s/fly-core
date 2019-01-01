@@ -8,3 +8,9 @@ php phpunit
 ```
 
 > [phpunit中文文档](https://phpunit.readthedocs.io/zh_CN/latest/installation.html)
+
+## PSR
+
+全部代码要符合psr规范
+
+> [PHP-FIG](https://www.php-fig.org)
