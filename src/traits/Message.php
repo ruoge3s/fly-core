@@ -31,10 +31,8 @@ trait Message
      */
     public static function info($code, $message, $data=null)
     {
-        return [
-            'code'  => $code,
-            'msg'   => $message,
-            'data'  => $data
-        ];
+        $info =  ['code'  => $code, 'msg'   => $message];
+        $data !== null && $info['data'] = $data;
+        return $info;
     }
 }
