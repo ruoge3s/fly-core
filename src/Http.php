@@ -2,9 +2,14 @@
 
 namespace core;
 
+use core\abstracts\Handler;
 use core\interfaces\Init;
 use Swoole\Http\Request;
 
+/**
+ * Class Http
+ * @package core
+ */
 class Http extends Handler implements Init
 {
     protected $classes = [];
@@ -22,27 +27,36 @@ class Http extends Handler implements Init
         $this->init();
     }
 
+    /**
+     * 初始化
+     */
     public function init()
     {
-        $controller = new Controller();
-        $this->classes = $controller->classes();
+        $this->classes = (new Controller())->getControllerClasses();
 
-        foreach ($this->classes as $cn => $classInfo) {
-            $className = $cn;
+        foreach ($this->classes as $className => $classInfo) {
             $this->classMethods[$className] = $this->publicMethodsParse(new $className);
         }
     }
 
+    /**
+     * 获取控制器的公开方法
+     * @param Controller $class
+     * @return array
+     */
     public function publicMethodsParse(Controller $class)
     {
         return array_keys($class->publicMethods());
     }
 
+    /**
+     * @return array|mixed|string
+     */
     public function run()
     {
         list($cn, $m) = $this->cm();
 
-        $className = 'app\\controller\\' . $cn;
+        $className = Controller::getNamespace() . $cn;
 
         if (isset($this->classes[$className])) {
             $class = new $className;

@@ -3,16 +3,19 @@
 namespace core;
 
 
+use core\abstracts\App;
+
+/**
+ * Class Command
+ * @package core
+ */
 class Command extends App
 {
-    protected function home(): string
-    {
-        return 'app/command';
-    }
+    protected static $commandNamespace = 'app\command';
 
-    protected static function restrain(): string
+    public static function getNamespace()
     {
-        return self::class;
+        return self::$commandNamespace;
     }
 
     /**
@@ -46,7 +49,7 @@ class Command extends App
      */
     public function cmdTips()
     {
-        $classes =  $this->classes();
+        $classes =  $this->getCommandClasses();
         $helps = [];
         foreach ($classes as $className => $data) {
             $buff = explode('\\', $className);
@@ -55,6 +58,16 @@ class Command extends App
         }
 
         $this->help($helps);
+    }
+
+    /**
+     * 获取命令类
+     * @return array
+     */
+    protected function getCommandClasses() : array
+    {
+        $dir = self::$baseDir . '/' . namespace2dir(self::$commandNamespace);
+        return $this->classes($dir, self::$commandNamespace, static::class);
     }
 
     /**

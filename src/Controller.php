@@ -2,16 +2,19 @@
 
 namespace core;
 
+use core\abstracts\App;
+
+/**
+ * Class Controller
+ * @package core
+ */
 class Controller extends App
 {
-    protected function home(): string
-    {
-        return 'app/controller';
-    }
+    protected static $commandNamespace = 'app\controller';
 
-    protected static function restrain(): string
+    public static function getNamespace()
     {
-        return static::class;
+        return self::$commandNamespace;
     }
 
     public function execute($m)
@@ -23,5 +26,14 @@ class Controller extends App
         }
     }
 
+    /**
+     * 获取所有的控制器类
+     * @return array
+     */
+    public function getControllerClasses()
+    {
+        $dir = self::$baseDir . '/' . namespace2dir(self::$commandNamespace);
+        return $this->classes($dir, self::$commandNamespace, static::class);
+    }
 }
 

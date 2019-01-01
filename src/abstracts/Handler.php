@@ -1,6 +1,8 @@
 <?php
 
-namespace core;
+namespace core\abstracts;
+
+use core\Config;
 
 abstract class Handler
 {
