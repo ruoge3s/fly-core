@@ -2,6 +2,8 @@
 
 namespace core;
 
+use core\abstracts\Handler;
+
 /**
  * Class Console
  * @package core
@@ -28,7 +30,7 @@ class Console extends Handler
     {
         list($cn, $m) = $this->cm();
         if ($cn) {
-            $className = '\\app\\command\\' . $cn;
+            $className = Command::getNamespace() . '\\' . $cn;
             if (class_exists($className)) {
                 $class = new $className($this->config);
                 if ($class instanceof Command) {

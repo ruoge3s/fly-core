@@ -1,6 +1,8 @@
 <?php
 
-namespace core;
+namespace core\abstracts;
+
+use core\Config;
 
 abstract class Handler
 {
@@ -16,10 +18,4 @@ abstract class Handler
      * @return mixed
      */
     abstract public function run();
-
-    /**
-     * 获取要调用的类和类方法
-     * @return mixed
-     */
-    abstract protected function cm();
 }

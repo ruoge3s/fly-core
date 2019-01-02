@@ -1,48 +1,49 @@
 <?php
 
-namespace core;
+namespace core\abstracts;
 
+use core\traits\AttributeLoader;
+
+/**
+ * Class App
+ * @package core
+ */
 abstract class App
 {
-    /**
-     * 获取处理器的家目录(控制器和command)
-     * @return string
-     */
-    abstract protected function home(): string ;
+    use AttributeLoader;
 
     /**
-     * 获取直接继承当前类的子类的类名
-     * @return string
+     * 项目的根目录,由外部传递
+     * @var string
      */
-    abstract protected static function restrain(): string;
+    public static $baseDir = '';
 
     abstract public function execute($m);
+
+    abstract public static function getNamespace();
+
+    /**
+     * 获取子类独有的方法
+     * @return array
+     */
+    abstract protected function getChildUniqueMethod() : array ;
 
     public function __construct(array $config = [])
     {
         App::configure($this, $config);
     }
 
+    /**
+     * 把一个键值对数据配置给一个类的属性
+     * @param $object
+     * @param array $data
+     */
     public static function configure($object, array $data)
     {
         foreach ($data as $k => $v) {
             $object->$k = $v;
         }
     }
-
-    public function load(array $attributes = [])
-    {
-        $properties = $this->publicProperties();
-        foreach ($attributes as $attribute => $value) {
-            if (isset($properties[$attribute])) {
-                $this->$attribute = $value;
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
 
     /**
      * 解析注释
@@ -74,24 +75,25 @@ abstract class App
     }
 
     /**
-     * 获取App类
+     * @param string $dir
+     * @param string $namespace
+     * @param string $restrain
      * @return array
-     * @time 2018-12-22 12:18:56
      */
-    public function classes()
+    protected function classes(string $dir, string $namespace, string $restrain) : array
     {
-        $apps = [];
-        $list = scandir(BASE_DIR . $this->home());
+        $handlers = [];
+        $list = scandir($dir);
         foreach ($list as $filename) {
             if (preg_match('/(^[A-Z]\w+)(\.php)$/', $filename, $matches)) {
-                $className = dir2namespace($this->home()) . '\\' . $matches[1];
+                $className = $namespace . '\\' . $matches[1];
                 if (class_exists($className)) {
                     try {
                         $r = new \ReflectionClass($className);
-                        if ($r->getParentClass() and $r->getParentClass()->name == static::restrain()) {
-                            $apps[$className] = $this->parseComment($r->getDocComment());
+                        if ($r->getParentClass() and $r->getParentClass()->name == $restrain) {
+                            $handlers[$className] = $this->parseComment($r->getDocComment());
                         } else {
-                            echo sprintf("Class $className need to extend from %s\n", static::restrain());
+                            echo sprintf("Class $className need to extend from %s\n", $restrain);
                             exit();
                         }
                     } catch (\Exception $e) {
@@ -101,7 +103,7 @@ abstract class App
                 }
             }
         }
-        return $apps;
+        return $handlers;
     }
 
     /**
@@ -111,14 +113,9 @@ abstract class App
      */
     public function publicMethods()
     {
-        $staticClassMethods =  array_diff(
-            get_class_methods(static::class),
-            get_class_methods(static::restrain())
-        );
-
+        $uniqueMethods = $this->getChildUniqueMethod();
         $publicMethods = [];
-
-        foreach ($staticClassMethods as $method) {
+        foreach ($uniqueMethods as $method) {
             $comment =  $this->publicMethodComment($method);
             $comment !== null && $publicMethods[$method] = $comment;
         }

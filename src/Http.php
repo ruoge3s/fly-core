@@ -2,13 +2,17 @@
 
 namespace core;
 
+use core\abstracts\Handler;
+use core\interfaces\Init;
 use Swoole\Http\Request;
 
+/**
+ * Class Http
+ * @package core
+ */
 class Http extends Handler implements Init
 {
-    protected $classes = [];
-
-    protected $classMethods = [];
+    public $routers = [];
 
     /**
      * @var \Swoole\Http\Request
@@ -21,54 +25,54 @@ class Http extends Handler implements Init
         $this->init();
     }
 
+    /**
+     * 初始化
+     */
     public function init()
     {
-        $controller = new Controller();
-        $this->classes = $controller->classes();
+        $this->parseRouter();
+    }
 
-        foreach ($this->classes as $cn => $classInfo) {
-            $className = $cn;
-            $this->classMethods[$className] = $this->publicMethodsParse(new $className);
+    /**
+     *
+     */
+    public function parseRouter()
+    {
+        $classes = (new Controller())->getControllerClasses();
+        foreach ($classes as $className => $classInfo) {
+            $classNameInfo = explode('\\', $className);
+            $n = array_pop($classNameInfo);
+            $cName = hump2dash($n);
+            $methods = (new $className)->publicMethods();
+            foreach ($methods as $mName => $methodInfo) {
+                if (isset($methodInfo['route'][0])) {
+                    $key = $methodInfo['route'][0];
+                } else {
+                    $key = sprintf("/%s/%s", $cName, hump2dash($mName));
+                }
+                if (isset($this->routers[$key])) {
+                    echo "Router defined error.";
+                    exit();
+                } else {
+                    $this->routers[$key] = [$className, $mName];
+                }
+            }
         }
     }
 
-    public function publicMethodsParse(Controller $class)
-    {
-        return array_keys($class->publicMethods());
-    }
-
+    /**
+     * @return array|mixed|string
+     */
     public function run()
     {
-        list($cn, $m) = $this->cm();
+        list($className, $method) = $this->routers[$this->request->server['path_info']];
 
-        $className = 'app\\controller\\' . $cn;
-
-        if (isset($this->classes[$className])) {
-            $class = new $className;
-            if ($class instanceof Controller) {
-                return $class->execute($m);
-            }
-        } else {
-            return 'class not exist.';
-        }
+        return (new $className)->$method();
     }
 
     public function parse(Request $request)
     {
         $this->request = $request;
         return $this;
-    }
-
-    public function cm()
-    {
-        if (isset($this->request->server['path_info'])) {
-            $res = explode("/", trim($this->request->server['path_info'], '/'));
-
-            if (count($res) >=2) {
-                return [$res[0], $res[1]];
-            }
-        }
-
-        return ['Index', 'index'];
     }
 }
