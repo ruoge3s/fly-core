@@ -22,5 +22,8 @@
             "core\\": "src"
         },
         "files": ["src/functions.php"]
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit -c phpunit.xml"
     }
 }

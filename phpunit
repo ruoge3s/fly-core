@@ -1,8 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-$_SERVER['argv'][] = 'tests';
-
-require './vendor/autoload.php';
-
-require './vendor/bin/phpunit';
