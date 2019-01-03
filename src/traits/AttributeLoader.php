@@ -7,14 +7,14 @@ trait AttributeLoader
      * 加载类属性值
      * @param array $attributes
      * @param bool $strict
-     * @return bool
+     * @return $this|null
      */
-    public function load(array $attributes = [], $strict = false) : bool
+    public function load(array $attributes = [], $strict = false)
     {
         try {
             $rc = new \ReflectionClass(static::class);
         } catch (\Exception $e) {
-            return false;
+            return null;
         }
         $publicProperties = $rc->getProperties(\ReflectionProperty::IS_PUBLIC);
 
@@ -29,11 +29,11 @@ trait AttributeLoader
                 $this->$key = $value;
             } else {
                 if ($strict) {
-                    return false;
+                    return null;
                 }
             }
         }
 
-        return true;
+        return $this;
     }
 }
