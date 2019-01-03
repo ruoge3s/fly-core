@@ -68,12 +68,8 @@ class Http extends Handler implements Init
     {
         list($className, $method) = $this->routers[$this->request->server['path_info']];
 
-        $handler = new $className;
-
         # TODO 自动注入
-        App::configure($handler, ['request' => $this->request]);
-
-        return $handler->$method();
+        return (new $className)->load(['request' => $this->request])->$method();
     }
 
     public function parse(Request $request)
