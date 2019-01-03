@@ -2,6 +2,8 @@
 
 namespace core;
 
+use core\abstracts\App;
+
 class Model
 {
     public function __construct(Array $data = [])
