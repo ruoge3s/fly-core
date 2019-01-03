@@ -8,11 +8,14 @@ trait AttributeLoader
      * @param array $attributes
      * @param bool $strict
      * @return bool
-     * @throws \ReflectionException
      */
     public function load(array $attributes = [], $strict = false) : bool
     {
-        $rc = new \ReflectionClass(static::class);
+        try {
+            $rc = new \ReflectionClass(static::class);
+        } catch (\Exception $e) {
+            return false;
+        }
         $publicProperties = $rc->getProperties(\ReflectionProperty::IS_PUBLIC);
 
         $propertyNames = [];
