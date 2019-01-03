@@ -2,6 +2,7 @@
 
 namespace core;
 
+use core\abstracts\App;
 use core\abstracts\Handler;
 use core\interfaces\Init;
 use Swoole\Http\Request;
@@ -67,7 +68,12 @@ class Http extends Handler implements Init
     {
         list($className, $method) = $this->routers[$this->request->server['path_info']];
 
-        return (new $className)->$method();
+        $handler = new $className;
+
+        # TODO 自动注入
+        App::configure($handler, ['request' => $this->request]);
+
+        return $handler->$method();
     }
 
     public function parse(Request $request)
