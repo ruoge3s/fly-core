@@ -4,7 +4,7 @@ namespace core;
 
 class Config extends Single
 {
-    protected $info = null;
+    protected $info = [];
 
     /**
      * 加载配置

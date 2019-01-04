@@ -69,7 +69,7 @@ class Http extends Handler implements Init
         list($className, $method) = $this->routers[$this->request->server['path_info']];
 
         # TODO 自动注入
-        return (new $className)->load(['request' => $this->request])->$method();
+        return (new $className)->load(array_merge(['request' => $this->request], $this->config))->$method();
     }
 
     public function parse(Request $request)
