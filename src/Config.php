@@ -24,7 +24,7 @@ class Config extends Single
     {
         if ($name !== null) {
             $data = explode('.', $name);
-            $buffer = Config::instance()->get();
+            $buffer = $this->get();
             foreach ($data as $name) {
                 $buffer = $buffer[$name];
             }
