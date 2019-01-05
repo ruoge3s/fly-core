@@ -17,23 +17,13 @@ class Demo
 
 class AttributeLoaderTest extends TestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testLoadPublicAttribute()
     {
-        $demo = new Demo();
-        $demo->load(['a' => 1]);
-        $this->assertEquals($demo->a, 1);
+        $this->assertEquals((new Demo())->load(['a' => 1])->a, 1);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testLoadNotExistPublicAttribute()
     {
-        $demo = new Demo();
-        $demo->load(['q' => 1]);
-        $this->assertObjectNotHasAttribute('q', $demo);
+        $this->assertObjectNotHasAttribute('q', (new Demo())->load(['q' => 1]));
     }
 }

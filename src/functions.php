@@ -47,11 +47,14 @@ if (!function_exists('hump2dash')) {
 if (!function_exists('dash2hump')) {
     /**
      * @param string $string
+     * @param bool $ucFirst
      * @return string
      */
-    function dash2hump(string $string) : string {
-        return preg_replace_callback('/-([a-z])/', function ($item) {
+    function dash2hump(string $string, $ucFirst=false) : string {
+        $string = preg_replace_callback('/-([a-z])/', function ($item) {
             return strtoupper($item[1]);
         }, $string);
+
+        return $ucFirst ? ucfirst($string) : $string;
     }
 }

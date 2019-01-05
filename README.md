@@ -4,7 +4,7 @@
 
 ## 启动测试
 ```bash
-php phpunit
+composer test
 ```
 
 > [phpunit中文文档](https://phpunit.readthedocs.io/zh_CN/latest/installation.html)

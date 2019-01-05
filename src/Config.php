@@ -24,7 +24,7 @@ class Config extends Single
     {
         if ($name !== null) {
             $data = explode('.', $name);
-            $buffer = $this->get();
+            $buffer = $this->info;
             foreach ($data as $name) {
                 $buffer = $buffer[$name];
             }
