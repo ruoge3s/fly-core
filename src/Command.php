@@ -13,11 +13,19 @@ class Command extends App
 {
     protected static $commandNamespace = 'app\command';
 
+    /**
+     * 获取命令的命名空间
+     * @return string
+     */
     public static function getNamespace() : string
     {
         return self::$commandNamespace;
     }
 
+    /**
+     * 获取子类独有的方法
+     * @return array
+     */
     protected function getChildUniqueMethod() : array
     {
         return array_diff(
@@ -28,22 +36,26 @@ class Command extends App
 
     /**
      * 执行方法
-     * @param $m
+     * @param $method
      */
-    public function execute($m)
+    public function execute($method)
     {
-        if (method_exists($this, $m)) {
-            if ($m == 'help') {
+        if (method_exists($this, $method)) {
+            if ($method == 'help') {
                 $this->help($this->publicProperties(), "Property:\n");
                 $this->help($this->publicMethods(), "Method:\n");
             } else {
-                $this->$m();
+                $this->$method();
             }
         } else {
             $this->help($this->publicMethods(), "Method:\n");
         }
     }
 
+    /**
+     * 获取public方法
+     * @return array
+     */
     public function publicMethods()
     {
         $publicMethods =  parent::publicMethods();

@@ -25,10 +25,10 @@ class Controller extends App
         );
     }
 
-    public function execute($m)
+    public function execute($method)
     {
-        if (method_exists($this, $m)) {
-            return $this->$m();
+        if (method_exists($this, $method)) {
+            return $this->$method();
         } else {
             return ['方法不存在'];
         }

@@ -18,7 +18,7 @@ abstract class App
      */
     public static $baseDir = '';
 
-    abstract public function execute($m);
+    abstract public function execute($method);
 
     abstract public static function getNamespace();
 

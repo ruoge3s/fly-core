@@ -13,6 +13,10 @@ use Swoole\Http\Request;
  */
 class Http extends Handler implements Init
 {
+    /**
+     * 路由map
+     * @var array
+     */
     public $routers = [];
 
     /**
@@ -35,7 +39,7 @@ class Http extends Handler implements Init
     }
 
     /**
-     *
+     * 解析路由
      */
     public function parseRouter()
     {
