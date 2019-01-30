@@ -49,16 +49,15 @@ class Console extends Handler
      */
     protected function cm()
     {
-        $class = isset($this->argv[1]) ? $this->argv[1] : '';
-        $method = isset($this->argv[2]) ? $this->argv[2] : '';
+        list($class, $method) = isset($this->argv[1]) ? explode(':', $this->argv[1]) : ['', ''];
         return [$class, $method];
     }
 
     public function parse()
     {
         $assignMap = [];
-        if (count($this->argv) > 3) {
-            $kvs = array_slice($this->argv, 3);
+        if (count($this->argv) > 2) {
+            $kvs = array_slice($this->argv, 2);
             foreach ($kvs as $kv) {
                 if (preg_match('/(^[a-zA-Z_][0-9a-zA-Z_]*)=(.*)/', $kv, $ms)) {
                     $assignMap[$ms[1]] = $ms[2];

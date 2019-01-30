@@ -18,11 +18,18 @@
     },
     "autoload":{
         "psr-4":{
-            "core\\": "src"
+            "core\\": "src",
+            "app\\": "app"
         },
         "files": ["src/functions.php"]
     },
     "scripts": {
         "test": "./vendor/bin/phpunit -c phpunit.xml"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }
