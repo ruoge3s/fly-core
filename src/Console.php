@@ -49,7 +49,16 @@ class Console extends Handler
      */
     protected function cm()
     {
-        list($class, $method) = isset($this->argv[1]) ? explode(':', $this->argv[1]) : ['', ''];
+        $class = '';
+        $method = '';
+        if (isset($this->argv[1])) {
+            if (strpos(':', $this->argv[1])) {
+                $cm = explode(':', $this->argv[1]);
+                list($class, $method) = $cm;
+            } else {
+                $class = $this->argv[1];
+            }
+        }
         return [$class, $method];
     }
 
