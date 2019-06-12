@@ -52,7 +52,7 @@ class Console extends Handler
         $class = '';
         $method = '';
         if (isset($this->argv[1])) {
-            if (strpos(':', $this->argv[1])) {
+            if (strpos($this->argv[1], ':')) {
                 $cm = explode(':', $this->argv[1]);
                 list($class, $method) = $cm;
             } else {
