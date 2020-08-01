@@ -10,6 +10,9 @@ class Single
 {
     protected static $instance = [];
 
+    /**
+     * @return static
+     */
     public static function instance()
     {
         if (!isset(self::$instance[static::class])) {
