@@ -8,13 +8,13 @@ namespace core;
  */
 class Single
 {
-    protected static $instance = null;
+    protected static $instance = [];
 
     public static function instance()
     {
-        if (!self::$instance) {
-            self::$instance = new static();
+        if (!isset(self::$instance[static::class])) {
+            self::$instance[static::class] = new static();
         }
-        return self::$instance;
+        return self::$instance[static::class];
     }
 }

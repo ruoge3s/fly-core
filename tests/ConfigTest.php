@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use core\Config;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +14,7 @@ class ConfigTest extends TestCase
     public function testConfigGet()
     {
         $stander = '10082';
-        \core\Config::instance()->load([
+        Config::instance()->load([
             'parent' => [
                 'child' => [
                     'value' => $stander
@@ -21,6 +22,6 @@ class ConfigTest extends TestCase
             ]
         ]);
 
-        $this->assertEquals(\core\Config::instance()->get('parent.child.value'), $stander);
+        $this->assertEquals(Config::instance()->get('parent.child.value'), $stander);
     }
 }

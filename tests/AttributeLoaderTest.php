@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
+use core\traits\AttributeLoader;
 use PHPUnit\Framework\TestCase;
 
 class Demo
 {
-    use \core\traits\AttributeLoader;
+    use AttributeLoader;
 
     public $a;
     protected $b;
@@ -19,7 +20,7 @@ class AttributeLoaderTest extends TestCase
 {
     public function testLoadPublicAttribute()
     {
-        $this->assertEquals((new Demo())->load(['a' => 1])->a, 1);
+        $this->assertEquals(1, (new Demo())->load(['a' => 1])->a);
     }
 
     public function testLoadNotExistPublicAttribute()

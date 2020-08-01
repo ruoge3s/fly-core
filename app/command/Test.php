@@ -3,6 +3,7 @@ namespace app\command;
 
 
 use core\Command;
+use core\Log;
 
 /**
  * Class Test
@@ -17,5 +18,10 @@ class Test extends Command
     public function test()
     {
         echo "11\n";
+    }
+
+    public function log()
+    {
+        Log::instance()->info('你好');
     }
 }

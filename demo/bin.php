@@ -8,6 +8,12 @@ date_default_timezone_set("Asia/Shanghai");
 
 \core\abstracts\App::$baseDir = BASE_DIR;
 
-\core\Config::instance()->load([]);
+\core\Config::instance()->load([
+    'log' => [
+        'filename'  => BASE_DIR . 'runtime/app.log',
+        'name'      => 'ql',
+        'level'     => \Monolog\Logger::DEBUG
+    ]
+]);
 
 (new core\Console())->setArgv($argv)->run();
