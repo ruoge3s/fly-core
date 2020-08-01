@@ -8,6 +8,7 @@ use core\traits\AttributeLoader;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Log
@@ -52,5 +53,22 @@ class Log extends Single
     public function __call($name, $arguments)
     {
         return $this->logger->$name(...$arguments);
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     * @return LoggerInterface
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        return $this->logger = $logger;
     }
 }
